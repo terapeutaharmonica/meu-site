@@ -15,11 +15,18 @@ mobilePanel.querySelectorAll('a').forEach(link => {
   });
 });
 
-// Botão Pix: como ainda não há chave configurada, orienta pelo WhatsApp
+// Botão Pix: copia a chave para a área de transferência
 const pixBtn = document.getElementById('pixBtn');
+const PIX_KEY = 'andressa.sdcs@gmail.com';
 if (pixBtn) {
-  pixBtn.addEventListener('click', (e) => {
+  pixBtn.addEventListener('click', async (e) => {
     e.preventDefault();
-    alert('Chave Pix ainda não configurada. Por enquanto, combine o pagamento pelo WhatsApp.');
+    try {
+      await navigator.clipboard.writeText(PIX_KEY);
+      pixBtn.textContent = 'Chave Pix copiada!';
+    } catch {
+      pixBtn.textContent = `Chave Pix: ${PIX_KEY}`;
+    }
+    setTimeout(() => { pixBtn.textContent = 'Pagar com Pix'; }, 3000);
   });
 }
